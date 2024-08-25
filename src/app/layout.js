@@ -1,7 +1,9 @@
-// app/layout.js
 import { Rubik } from "next/font/google";
 import "./globals.css";
 import ClientProvider from "@/components/ClientProvider";
+import Sidebar from "@/components/Sidebar";
+import { ThemeProvider } from "@/components/ThemeContext";
+import Header from "@/components/Header";
 
 const font = Rubik({ subsets: ["latin"] });
 
@@ -12,10 +14,20 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className={font.className}>
-        <ClientProvider>{children}</ClientProvider>
-      </body>
-    </html>
+    <ThemeProvider>
+      <html lang="en">
+        <body className={font.className}>
+          <ClientProvider>
+            <div className="flex min-h-screen">
+              <Sidebar />
+              <div className="flex-1 flex flex-col">
+                <Header />
+                <main className="flex-1 p-6 bg-gray-100">{children}</main>
+              </div>
+            </div>
+          </ClientProvider>
+        </body>
+      </html>
+    </ThemeProvider>
   );
 }
